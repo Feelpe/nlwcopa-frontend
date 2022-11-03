@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 
@@ -100,13 +101,14 @@ export default function Home(props: HomeProps) {
       <Image 
         src={appPreviewImg} 
         alt="Dois celulares para demonstrar o aplicativo NLW Copa" 
-        quality={70}
+        quality={100}
+        priority
       />
     </div>
   )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const [
     poolCountResponse, 
     guessCountResponse, 
@@ -122,6 +124,7 @@ export const getServerSideProps = async () => {
       poolCount: poolCountResponse.data.count,
       guessCount: guessCountResponse.data.count,
       userCount: userCountResponse.data.count,
-    }
+    },
+    revalidate: 30 * 30, // 24 hours
   }
 }
